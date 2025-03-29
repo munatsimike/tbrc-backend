@@ -9,8 +9,8 @@ config();
 
 // Set SendGrid API Key
 const currentDomain = process.env.CURRENT_DOMAIN || "http://localhost:3000";
-console.log("SENDGRID_API_KEY:", process.env.SENDGRID_API_KEY); 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+//console.log("SENDGRID_API_KEY:", process.env.SENDGRID_API_KEY); 
+//sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const login = async (req, res) => {
   const { username, password } = req.body;
@@ -185,7 +185,7 @@ const resendVerificationEmail = async (req, res) => {
     </div>
   `,
   };
-
+/** 
   try {
     await sgMail.send(msg);
     res.status(201).json({
@@ -196,6 +196,7 @@ const resendVerificationEmail = async (req, res) => {
     res.status(500).json({ message: "Error sending verification email." });
     console.log("Error sending verification email:", error);
   }
+  */
 };
 
 export { login, register, verifyEmail, resendVerificationEmail };
