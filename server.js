@@ -63,7 +63,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const PORT = process.env.PORT || 3000;
-  Sync models with the database and start the server
+
+  //Sync models with the database and start the server
   sequelize.sync({ alter: true }).then(() => {
   app.listen(PORT, () => {
     console.log("Server is running on port 3000");
