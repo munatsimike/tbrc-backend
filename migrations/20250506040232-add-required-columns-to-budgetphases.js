@@ -2,13 +2,6 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Add 'initial_budget' column
-    await queryInterface.addColumn('BudgetPhases', 'initial_budget', {
-      type: Sequelize.FLOAT,
-      allowNull: false,
-      defaultValue: 0.0,
-    });
-
     // Add 'budget' column
     await queryInterface.addColumn('BudgetPhases', 'budget', {
       type: Sequelize.FLOAT,
