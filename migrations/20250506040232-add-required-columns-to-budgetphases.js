@@ -2,13 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Add 'budget' column
-    await queryInterface.addColumn('BudgetPhases', 'budget', {
-      type: Sequelize.FLOAT,
-      allowNull: false,
-      defaultValue: 0.0,
-    });
-
+  
     // Ensure 'user_id' column exists
     const tableDescription = await queryInterface.describeTable('BudgetPhases');
     if (!tableDescription.user_id) {
