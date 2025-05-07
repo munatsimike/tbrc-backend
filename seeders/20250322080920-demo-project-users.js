@@ -6,19 +6,19 @@ module.exports = {
       {
         project_id: 1,
         user_id: 1,
-        role: 'Project Manager',
+        role: 'Manager',
         assigned_at: new Date('2025-01-01')
       },
       {
         project_id: 1,
         user_id: 2,
-        role: 'Engineer',
+        role: 'Viewer',
         assigned_at: new Date('2025-01-15')
       },
       {
         project_id: 2,
         user_id: 1,
-        role: 'Consultant',
+        role: 'Viewer',
         assigned_at: new Date('2025-02-01')
       },
       {
