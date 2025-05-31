@@ -64,12 +64,19 @@ app.set('views', path.join(__dirname, 'views'));
 
 const PORT = process.env.PORT || 3000;
 
-  //Sync models with the database and start the server
+// Sync models with the database and start the server
+if (process.env.NODE_ENV !== 'production') {
   sequelize.sync({ alter: true }).then(() => {
+    app.listen(PORT, () => {
+      console.log("Server is running on port 3000 (with sync alter)");
+    });
+  });
+} else {
+  // In production, just start server — migrations already run
   app.listen(PORT, () => {
-    console.log("Server is running on port 3000");
-   });
- });
+    console.log("Server is running on port 3000 (no sync alter)");
+  });
+}
 
 /**
 app.listen(PORT, () => {
