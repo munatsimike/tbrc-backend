@@ -24,7 +24,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        assignedTo: null,
+        assignedTo: 1,
         question: 'Requesting clarification on roofing materials.',
         dueDate: new Date('2025-04-10'),
         resolved: false,
