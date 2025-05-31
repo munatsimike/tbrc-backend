@@ -18,9 +18,14 @@ export const getAllORFIs = async (req, res) => {
     const obfuscatedORFIs = orfis.map((orfi) => ({
       ...orfi,
       id: obfuscateId(orfi.id),
-      assignedTo: orfi.assignedTo != null ? obfuscateId(orfi.assignedTo) : null,
-      projectId: obfuscateId(orfi.projectId),
+      assignedTo: safeObfuscateId(orfi.assignedTo),
+      projectId: safeObfuscateId(orfi.projectId),
     }));
+
+    function safeObfuscateId(id) {
+  if (id === null || id === undefined) return null;
+  return obfuscateId(id);
+  }
 
     res.json(obfuscatedORFIs);
   } catch (error) {
