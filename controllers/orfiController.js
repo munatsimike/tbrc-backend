@@ -14,19 +14,20 @@ export const getAllORFIs = async (req, res) => {
       WHERE ORFI.isDeleted = 0
     `);
 
+    // Define safeObfuscateId FIRST
+    function safeObfuscateId(id) {
+      if (id === null || id === undefined) return null;
+      return obfuscateId(id);
+    }
+
     // Obfuscate IDs in the response
     const obfuscatedORFIs = orfis.map((orfi) => ({
       ...orfi,
-      id: obfuscateId(orfi.id),
+      id: safeObfuscateId(orfi.id),           // USE SAFE!
       assignedTo: safeObfuscateId(orfi.assignedTo),
       projectId: safeObfuscateId(orfi.projectId),
     }));
-
-    function safeObfuscateId(id) {
-  if (id === null || id === undefined) return null;
-  return obfuscateId(id);
-  }
-
+    
     res.json(obfuscatedORFIs);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
