@@ -19,7 +19,7 @@ module.exports = {
           isSuperUser: true,
           isDeleted: false,
           isActivated: true,
-          avatar: 'default.png',
+          avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -33,7 +33,7 @@ module.exports = {
           isSuperUser: true,
           isDeleted: false,
           isActivated: true,
-          avatar: 'admin.png',
+          avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
           createdAt: new Date(),
           updatedAt: new Date(),
         }
