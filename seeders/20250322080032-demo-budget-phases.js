@@ -13,7 +13,7 @@ module.exports = {
         isDeleted: false,
       },
       {
-        project_id: 2,
+        project_id: 1,
         phase: 'Phase 2: Design',
         parent_id: 1,
         user_id: 2,
