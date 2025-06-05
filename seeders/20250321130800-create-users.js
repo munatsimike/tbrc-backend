@@ -12,7 +12,7 @@ module.exports = {
         {
           username: 'user2',
           name: 'Robert Green',
-          email: 'test@example.com',
+          email: 'robert.green@theestate.com',
           password: hashedPassword1,
           phone_number: '1234567890',
           address: '123 Street, City',
@@ -26,7 +26,7 @@ module.exports = {
         {
           username: 'adminuser',
           name: 'Julia Roberts',
-          email: 'admin@example.com',
+          email: 'julia.roberts@theestate.com',
           password: hashedPassword2,
           phone_number: '9876543210',
           address: '456 Avenue, City',
