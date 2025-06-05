@@ -7,21 +7,18 @@ module.exports = {
     await queryInterface.bulkInsert('ScheduleBudget', [
       {
         scheduleId: 1,         // Make sure this exists in your Schedule table
-        budgetPhaseId: 1,      // Make sure this exists in your BudgetPhases table
-        createdAt: new Date('2025-01-01'),
-        updatedAt: new Date('2025-01-01')
+        budgetPhaseId: 1      // Make sure this exists in your BudgetPhases table
+      
       },
       {
         scheduleId: 2,
-        budgetPhaseId: 2,
-        createdAt: new Date('2025-02-01'),
-        updatedAt: new Date('2025-02-10')
+        budgetPhaseId: 2
+        
       },
       {
         scheduleId: 3,
-        budgetPhaseId: 3,
-        createdAt: new Date('2025-03-01'),
-        updatedAt: new Date('2025-03-15')
+        budgetPhaseId: 3
+        
       }
     ], {});
   },
