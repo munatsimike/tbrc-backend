@@ -28,7 +28,15 @@ export const getBudgetPhasesByProject = async (req, res) => {
 
     console.log("Getting project: ", project_id);
 
-    // Check role
+    // ✅ Safe deobfuscate with try/catch to prevent crypto errors
+    let real_project_id;
+    try {
+      real_project_id = deobfuscateId(project_id);
+    } catch (err) {
+      return res.status(400).json({ message: "Invalid Project ID", error: err.message });
+    }
+
+    // ✅ Check role — use original obfuscated project_id for role check
     const role = await getRole(req.user.id, project_id);
     if (!req.user.isSuperUser) {
       if (!role) {
@@ -70,22 +78,23 @@ export const getBudgetPhasesByProject = async (req, res) => {
         bc.id, bc.phase, bc.project_id, u.username, u.name, u.avatar;
     `;
 
-    // Deobfuscate project_id for query
-    var phases = await sequelize.query(query, {
+    // Run query using real_project_id
+    const phases = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
-      replacements: { project_id: deobfuscateId(project_id) }, // ✅ safe change here
+      replacements: { project_id: real_project_id },
     });
 
     // Obfuscate project_id in response
     const obfuscatedPhases = phases.map(phase => ({
       ...phase,
-      project_id: obfuscateId(phase.project_id), // ✅ safe change here
+      project_id: obfuscateId(phase.project_id),
     }));
 
     // Return result
     res.json(obfuscatedPhases);
 
   } catch (error) {
+    console.error("Error fetching budget phases:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
