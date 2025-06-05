@@ -2,47 +2,54 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('ScheduleBudget', {
+    await queryInterface.createTable('BudgetPhases', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      scheduleId: {
+      project_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Schedule',
-          key: 'id',
+          model: 'Projects',
+          key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      budgetPhaseId: {
+      phase: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      parent_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'BudgetPhases',
-          key: 'id',
+          key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      isDeleted: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
       },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') // ✅ important!
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP') // ✅ important!
-      },
+        allowNull: false
+      }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('ScheduleBudget');
+    await queryInterface.dropTable('BudgetPhases');
   }
 };
-
