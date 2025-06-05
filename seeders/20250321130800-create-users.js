@@ -10,11 +10,11 @@ module.exports = {
 
       await queryInterface.bulkInsert('Users', [
         {
-          username: 'user2',
+          username: 'RobertG',
           name: 'Robert Green',
           email: 'robert.green@theestate.com',
           password: hashedPassword1,
-          phone_number: '1234567890',
+          phone_number: '+316500222022',
           address: '123 Street, City',
           isSuperUser: true,
           isDeleted: false,
@@ -24,11 +24,11 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          username: 'adminuser',
+          username: 'JuliaR',
           name: 'Julia Roberts',
           email: 'julia.roberts@theestate.com',
           password: hashedPassword2,
-          phone_number: '9876543210',
+          phone_number: '+9876543210',
           address: '456 Avenue, City',
           isSuperUser: true,
           isDeleted: false,

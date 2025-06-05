@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('BudgetPhases', [
       {
-        project_id: Zlp6emt0Q01tTXZ1ODRuMEZMK3dNdz09,
+        project_id: 1,
         phase: 'Phase 1: Planning',
         parent_id: null,
         user_id: 1, // Make sure this user exists
@@ -13,7 +13,7 @@ module.exports = {
         isDeleted: false,
       },
       {
-        project_id: Zlp6emt0Q01tTXZ1ODRuMEZMK3dNdz09,
+        project_id: 1,
         phase: 'Phase 2: Design',
         parent_id: 1,
         user_id: 2,
