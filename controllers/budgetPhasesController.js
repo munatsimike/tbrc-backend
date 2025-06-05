@@ -12,22 +12,24 @@ import { obfuscateId, obfuscateArray,deobfuscateId } from "./helpers/obfuscation
 export const getBudgetPhasesByProject = async (req, res) => {
   try {
     const project_id = req.params.id;
+
     if (!project_id) {
       return res.status(400).json({ message: "Project ID is required." });
     }
 
     console.log("Getting project: ", project_id);
+
+    // Check role
     const role = await getRole(req.user.id, project_id);
     if (!req.user.isSuperUser) {
       if (!role) {
-        return res
-          .status(403)
-          .json({
-            message: "You do not have access to see the budget for this project ",
-          });
+        return res.status(403).json({
+          message: "You do not have access to see the budget for this project ",
+        });
       }
     }
 
+    // Query
     const query = `
       SELECT 
         bc.id, 
@@ -59,21 +61,22 @@ export const getBudgetPhasesByProject = async (req, res) => {
         bc.id, bc.phase, bc.project_id, u.username, u.name, u.avatar;
     `;
 
+    // Deobfuscate project_id for query
     var phases = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
-      replacements: { project_id: deobfuscateId(project_id) }, // ✅ deobfuscate for query
+      replacements: { project_id: deobfuscateId(project_id) }, // ✅ safe change here
     });
 
-    // ✅ Obfuscate project_id for API response
+    // Obfuscate project_id in response
     const obfuscatedPhases = phases.map(phase => ({
       ...phase,
-      project_id: obfuscateId(phase.project_id),
+      project_id: obfuscateId(phase.project_id), // ✅ safe change here
     }));
 
+    // Return result
     res.json(obfuscatedPhases);
 
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
