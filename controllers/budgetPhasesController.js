@@ -9,73 +9,71 @@ import sequelize from "../config/database.js";
 import { getRole } from "./helpers/role.js";
 import { obfuscateId, obfuscateArray,deobfuscateId } from "./helpers/obfuscation.js";
 
+export const getAllBudgetPhases = async (req, res) => {
+  try {
+    const phases = await BudgetPhases.findAll();
+    res.json(obfuscateArray(phases));
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 export const getBudgetPhasesByProject = async (req, res) => {
   try {
     const project_id = req.params.id;
-
     if (!project_id) {
       return res.status(400).json({ message: "Project ID is required." });
     }
 
     console.log("Getting project: ", project_id);
-
-    // Check role
     const role = await getRole(req.user.id, project_id);
     if (!req.user.isSuperUser) {
       if (!role) {
-        return res.status(403).json({
-          message: "You do not have access to see the budget for this project ",
-        });
+        return res
+          .status(403)
+          .json({
+            message:
+              "You do not have access to see the budget for this project ",
+          });
       }
     }
 
-    // Query
     const query = `
-      SELECT 
-        bc.id, 
-        bc.phase, 
-        bc.project_id, 
-        COALESCE(SUM(bi.amount), 0) AS totalAmount, 
-        COALESCE(SUM(bi.paid), 0) AS totalPaid,
-        bc.user_id,
-        u.username AS assignedToUsername,
-        u.name AS assignedToName,
-        u.avatar AS assignedToAvatar,
-        bc.budget,
-        bc.initial_budget
-      FROM 
+  SELECT 
+    bc.id, 
+    bc.phase, 
+    bc.project_id, 
+    COALESCE(SUM(bi.amount), 0) AS totalAmount, 
+    COALESCE(SUM(bi.paid), 0) AS totalPaid,
+    bc.user_id,
+    u.username AS assignedToUsername,
+    u.name AS assignedToName,
+    u.avatar AS assignedToAvatar,
+    bc.budget,
+    bc.initial_budget
+    FROM 
         BudgetPhases bc
-      LEFT JOIN 
+    LEFT JOIN 
         BudgetInvoices bi 
-      ON 
+    ON 
         bc.id = bi.budget_id
         AND bi.isDeleted = 0
-      LEFT JOIN 
+    LEFT JOIN 
         Users u
-      ON 
+    ON 
         bc.user_id = u.id
-      WHERE 
+    WHERE 
         bc.project_id = :project_id
         AND bc.isDeleted = 0
-      GROUP BY 
+    GROUP BY 
         bc.id, bc.phase, bc.project_id, u.username, u.name, u.avatar;
-    `;
+`;
 
-    // Deobfuscate project_id for query
     var phases = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
-      replacements: { project_id: deobfuscateId(project_id) }, // ✅ safe change here
+      replacements: { project_id: project_id },
     });
-
-    // Obfuscate project_id in response
-    const obfuscatedPhases = phases.map(phase => ({
-      ...phase,
-      project_id: obfuscateId(phase.project_id), // ✅ safe change here
-    }));
-
-    // Return result
-    res.json(obfuscatedPhases);
-
+    res.json(obfuscateArray(phases));
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
