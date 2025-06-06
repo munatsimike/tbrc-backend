@@ -74,9 +74,14 @@ export const getBudgetPhasesByProject = async (req, res) => {
       replacements: { project_id: project_id },
     });
 
- 
+     // Obfuscate IDs in the response
+    const obfuscatedPhases = phases.map((phase) => ({
+      ...phase,
+      id: obfuscateId(phase.id),
+      project_id: obfuscateId(phase.project_id),
+    }));
 
-    res.json(obfuscateArray(phases));
+    res.json(obfuscateArray(obfuscatedPhases));
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
