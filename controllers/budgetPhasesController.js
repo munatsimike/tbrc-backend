@@ -73,7 +73,15 @@ export const getBudgetPhasesByProject = async (req, res) => {
       type: Sequelize.QueryTypes.SELECT,
       replacements: { project_id: project_id },
     });
-    res.json(obfuscateArray(phases));
+
+     // Obfuscate IDs in the response
+    const obfuscatedPhases = phases.map((phase) => ({
+      ...phase,
+      id: obfuscateId(phase.id),
+      project_id: obfuscateId(phase.project_id),
+    }));
+
+    res.json(obfuscateArray(obfuscatedPhases));
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
