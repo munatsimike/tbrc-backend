@@ -43,14 +43,16 @@ export const getFoldersByProject = async (req, res) => {
     if (!folders.length) {
       message = "No folders found for this project.";
     }
-    const obfuscatedFolders = folders.map((folder) => ({
+  // Obfuscate the IDs of the images
+    const obfuscatedImages = folders.map((folder) => ({
       ...folder,
-      id: obfuscateId(folder.id),
-      projectId: obfuscateId(folder.projectId),
+      id: obfuscateUserId(folder.id),
     }));
-    res.json(obfuscatedFolders);
+
+    res.json(obfuscatedfolders);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.log("Error fetching images:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
