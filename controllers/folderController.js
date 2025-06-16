@@ -47,6 +47,7 @@ export const getFoldersByProject = async (req, res) => {
     const obfuscatedfolders = folders.map((folder) => ({
       ...folder,
       id: obfuscateId(folder.id),
+      projectId: obfuscateId(folder.projectId), 
     }));
 
     res.json(obfuscatedfolders);
