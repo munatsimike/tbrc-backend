@@ -15,7 +15,7 @@ const getAllImages = async (req, res) => {
     const obfuscatedImages = images.map((image) => ({
       ...image,
       id: obfuscateUserId(image.id),
-      folderId: obfuscateId(image.folderId), /
+      folderId: obfuscateId(image.folderId), 
     }));
 
     res.json(obfuscatedImages);
