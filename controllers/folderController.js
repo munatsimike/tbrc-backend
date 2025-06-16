@@ -44,7 +44,7 @@ export const getFoldersByProject = async (req, res) => {
       message = "No folders found for this project.";
     }
   // Obfuscate the IDs of the images
-    const obfuscatedImages = folders.map((folder) => ({
+    const obfuscatedfolders = folders.map((folder) => ({
       ...folder,
       id: obfuscateUserId(folder.id),
     }));
