@@ -191,9 +191,8 @@ export const getImagesByFolder = async (req, res) => {
     const obfuscatedImages = imageResponse.images.map((image) => ({
       ...image,
       id: obfuscateUserId(image.id),
-      folderId: obfuscateId(image.folderId),
-      projectId: obfuscateId(image.projectId), 
-
+      folderId: obfuscateUserId(image.folderId),
+      projectId: obfuscateUserId(image.projectId),
     }));
     res.json({
       ...imageResponse,
