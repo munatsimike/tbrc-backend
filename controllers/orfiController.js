@@ -157,7 +157,12 @@ export const updateORFI = async (req, res) => {
 // Delete an ORFI (Soft Delete)
 export const deleteORFI = async (req, res) => {
   try {
-    const orfiId = req.params.id;
+     const obfuscatedId = req.params.id;
+     const orfiId = deobfuscateId(obfuscatedId); 
+
+     if (!orfiId || isNaN(orfiId)) {
+  return res.status(400).json({ message: "Invalid ORFI ID format" });
+  }
 
     // Soft delete ORFI
     const [orfiResult] = await db.execute(
