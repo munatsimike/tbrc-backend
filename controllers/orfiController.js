@@ -95,7 +95,7 @@ export const createORFI = async (req, res) => {
     const obfuscatedORFI = {
       ...orfis[0],
       id: obfuscateId(orfis[0].id),
-      assignedTo: obfuscateId(orfis[0].assignedTo),
+      assignedTo: orfis[0].assignedTo ? obfuscateId(orfis[0].assignedTo) : null,
       projectId: obfuscateId(orfis[0].projectId),
     };
 
