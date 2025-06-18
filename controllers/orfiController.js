@@ -211,6 +211,7 @@ export const getORFIByProject = async (req, res) => {
       assignedTo: orfi.assignedTo !== null && orfi.assignedTo !== undefined
       ? obfuscateId(orfi.assignedTo) : null,
       projectId: obfuscateId(orfi.projectId),
+      id: obfuscateId(orfi.id)
     }));
 
     res.json(obfuscatedORFIs);
