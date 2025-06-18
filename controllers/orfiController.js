@@ -69,11 +69,8 @@ export const getORFIById = async (req, res) => {
 export const createORFI = async (req, res) => {
   try {
     var { assignedTo, question, dueDate, resolved, projectId } = req.body;
-    if(assignedTo){
-      assignedTo = deobfuscateId(assignedTo);ø
-    }
-    
-    projectId = deobfuscateId(projectId);
+    assignedTo = assignedTo ? deobfuscateId(assignedTo) : null;
+    projectId = projectId ? deobfuscateId(projectId) : null;
     const now = new Date();
 
     const [result] = await db.execute(
