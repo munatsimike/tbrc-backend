@@ -204,14 +204,12 @@ export const getORFIByProject = async (req, res) => {
     `,
       [projectId]
     );
-
-    // Obfuscate IDs in the response
+        // Obfuscate IDs in the response
     const obfuscatedORFIs = orfis.map((orfi) => ({
       ...orfi,
-      assignedTo: orfi.assignedTo !== null && orfi.assignedTo !== undefined
-      ? obfuscateId(orfi.assignedTo) : null,
+      id: obfuscateId(orfi.id),
+      assignedTo: orfi.assignedTo != null ? obfuscateId(orfi.assignedTo) : null,
       projectId: obfuscateId(orfi.projectId),
-      id: obfuscateId(orfi.id)
     }));
 
     res.json(obfuscatedORFIs);
