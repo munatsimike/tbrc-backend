@@ -162,7 +162,7 @@ export const deleteORFI = async (req, res) => {
 
      if (!orfiId || isNaN(orfiId)) {
   return res.status(400).json({ message: "Invalid ORFI ID format" });
-  }
+}
 
     // Soft delete ORFI
     const [orfiResult] = await db.execute(
