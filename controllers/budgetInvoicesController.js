@@ -70,7 +70,13 @@ export const getBudgetInvoiceById = async (req, res) => {
 export const createBudgetInvoice = async (req, res) => {
   try {
     var { budget_id, assignedTo, date, amount, paid } = req.body;
+
     budget_id = deobfuscateId(budget_id);
+
+    if (!budget_id || isNaN(budget_id)) {
+  return res.status(400).json({ message: "Invalid or missing budget_id" });
+}
+    
     // assignedTo = deobfuscateId(assignedTo);
     assignedTo = req.user.id; // Assign the logged in user to the invoice for now as vendor is taken from the parent budget
     const [result] = await db.execute(
