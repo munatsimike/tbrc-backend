@@ -77,12 +77,20 @@ export function deobfuscateId(obfuscatedId) {
 }
 
 export function deobfuscateIdFromUrlSafe(obfuscatedId) {
-  const decoded = base64UrlDecode(obfuscatedId); // returns Buffer
-  const decipher = crypto.createDecipheriv(ALGORITHM, KEY, IV);
+  if (!obfuscatedId || typeof obfuscatedId !== 'string' || obfuscatedId.length < 10) {
+    throw new Error('Invalid encrypted ID format');
+  }
 
-  let decrypted = decipher.update(decoded, undefined, 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
+  try {
+    const decoded = base64UrlDecode(obfuscatedId); // returns Buffer
+    const decipher = crypto.createDecipheriv(ALGORITHM, KEY, IV);
+    let decrypted = decipher.update(decoded, undefined, 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+  } catch (err) {
+    console.error('Failed to decrypt ID:', err.message);
+    throw new Error('Failed to decrypt obfuscated ID');
+  }
 }
 
 export function obfuscateUserId(userId) {
