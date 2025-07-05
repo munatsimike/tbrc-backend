@@ -157,12 +157,8 @@ export const updateORFI = async (req, res) => {
 /// Delete an ORFI (Soft Delete)
 export const deleteORFI = async (req, res) => {
   try {
-    const obfuscatedId = req.params.id;
-    console.log("Received Obfuscated ID:", obfuscatedId);
-
-    // Attempt to decrypt the obfuscated ID
-    const orfiId = deobfuscateIdFromUrlSafe(obfuscatedId);
-    console.log("Deobfuscated ORFI ID:", orfiId);
+   const orfiId = req.params.id; // Already decrypted by middleware
+    console.log("Decrypted ORFI ID (from middleware):", orfiId);
 
     // Validate the decrypted ID
     if (!orfiId || isNaN(orfiId)) {
