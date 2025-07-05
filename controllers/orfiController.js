@@ -154,24 +154,28 @@ export const updateORFI = async (req, res) => {
   }
 };
 
-// Delete an ORFI (Soft Delete)
+/// Delete an ORFI (Soft Delete)
 export const deleteORFI = async (req, res) => {
   try {
-     const obfuscatedId = req.params.id;
-     console.log("Obfuscated ID:", obfuscatedId);
-     const orfiId = deobfuscateIdFromUrlSafe(obfuscatedId); 
+    const obfuscatedId = req.params.id;
+    console.log("Received Obfuscated ID:", obfuscatedId);
 
-     if (!orfiId || isNaN(orfiId)) {
-  return res.status(400).json({ message: "Invalid ORFI ID format" });
-}
+    // Attempt to decrypt the obfuscated ID
+    const orfiId = deobfuscateIdFromUrlSafe(obfuscatedId);
+    console.log("Deobfuscated ORFI ID:", orfiId);
 
-    // Soft delete ORFI
+    // Validate the decrypted ID
+    if (!orfiId || isNaN(orfiId)) {
+      return res.status(400).json({ message: "Invalid ORFI ID format" });
+    }
+
+    // Soft delete the ORFI
     const [orfiResult] = await db.execute(
       `
       UPDATE ORFI
       SET isDeleted = 1
       WHERE id = ?
-    `,
+      `,
       [orfiId]
     );
 
@@ -187,14 +191,14 @@ export const deleteORFI = async (req, res) => {
       UPDATE ORFIFiles
       SET isDeleted = 1
       WHERE orfi_id = ?
-    `,
+      `,
       [orfiId]
     );
 
-    res.json({ message: "ORFI and associated files deleted successfully." });
+    return res.json({ message: "ORFI and associated files deleted successfully." });
   } catch (error) {
-    console.error("Delete ORFI error:", error); // not just error.message
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Delete ORFI error:", error); // full stack trace
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
