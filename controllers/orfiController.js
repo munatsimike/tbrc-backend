@@ -158,6 +158,7 @@ export const updateORFI = async (req, res) => {
 export const deleteORFI = async (req, res) => {
   try {
      const obfuscatedId = req.params.id;
+     console.log("Obfuscated ID:", obfuscatedId);
      const orfiId = deobfuscateId(obfuscatedId); 
 
      if (!orfiId || isNaN(orfiId)) {
