@@ -193,6 +193,7 @@ export const deleteORFI = async (req, res) => {
 
     res.json({ message: "ORFI and associated files deleted successfully." });
   } catch (error) {
+    console.error("Delete ORFI error:", error); // not just error.message
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
