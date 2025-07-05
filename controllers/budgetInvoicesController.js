@@ -71,10 +71,13 @@ export const createBudgetInvoice = async (req, res) => {
   try {
     var { budget_id, assignedTo, date, amount, paid } = req.body;
 
-    budget_id = parseInt(deobfuscateId(budget_id), 10);
+    const rawBudgetId = budget_id; // store original for logging
+    const decodedId = deobfuscateId(rawBudgetId);
 
-    console.log("Raw budget_id from client:", req.body.budget_id);
-    console.log("Deobfuscated:", budget_id);
+    console.log("Raw budget_id from client:", rawBudgetId);
+    console.log("Deobfuscated:", decodedId);
+
+    budget_id = parseInt(decodedId, 10);
 
    if (isNaN(budget_id)) {
   return res.status(400).json({ message: "Invalid or missing budget_id" });
