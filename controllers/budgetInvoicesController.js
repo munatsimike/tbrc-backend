@@ -73,21 +73,18 @@ export const createBudgetInvoice = async (req, res) => {
 
     const rawBudgetId = budget_id;
 
-// First decode
-const firstDecode = deobfuscateId(rawBudgetId);
-console.log("1st Deobfuscation:", firstDecode);
+    // First decode
+    const firstDecode = deobfuscateId(rawBudgetId);
 
-// Second decode
-const secondDecode = deobfuscateId(firstDecode);
-console.log("2nd Deobfuscation:", secondDecode);
+    // Second decode
+     const secondDecode = deobfuscateId(firstDecode);
 
-// Convert to number
-budget_id = parseInt(secondDecode, 10);
-console.log("Final budget_id to insert:", budget_id);
+    // Convert to number
+    budget_id = parseInt(secondDecode, 10);
 
    if (isNaN(budget_id)) {
-  return res.status(400).json({ message: "Invalid or missing budget_id" });
-}
+    return res.status(400).json({ message: "Invalid or missing budget_id" });
+   }
     
     // assignedTo = deobfuscateId(assignedTo);
     assignedTo = req.user.id; // Assign the logged in user to the invoice for now as vendor is taken from the parent budget
