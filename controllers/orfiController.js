@@ -2,7 +2,7 @@ import ORFI from "../sequelizeModels/ORFI.js";
 import ORFIFiles from "../sequelizeModels/ORFIFiles.js";
 import Users from "../sequelizeModels/Users.js"; // Import Users model
 import db from "../config/db.js";
-import { deobfuscateId, obfuscateId } from "./helpers/obfuscation.js"; // Import obfuscateId
+import { deobfuscateId, obfuscateId, deobfuscateIdFromUrlSafe} from "./helpers/obfuscation.js"; // Import obfuscateId
 
 // Get all ORFIs with assigned user names
 export const getAllORFIs = async (req, res) => {
@@ -159,7 +159,7 @@ export const deleteORFI = async (req, res) => {
   try {
      const obfuscatedId = req.params.id;
      console.log("Obfuscated ID:", obfuscatedId);
-     const orfiId = deobfuscateId(obfuscatedId); 
+     const orfiId = deobfuscateIdFromUrlSafe(obfuscatedId); 
 
      if (!orfiId || isNaN(orfiId)) {
   return res.status(400).json({ message: "Invalid ORFI ID format" });

@@ -76,6 +76,15 @@ export function deobfuscateId(obfuscatedId) {
   return decrypted;
 }
 
+export function deobfuscateIdFromUrlSafe(obfuscatedId) {
+  const decoded = base64UrlDecode(obfuscatedId); // returns Buffer
+  const decipher = crypto.createDecipheriv(ALGORITHM, KEY, IV);
+
+  let decrypted = decipher.update(decoded, undefined, 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
+
 export function obfuscateUserId(userId) {
   return obfuscateId(userId);
 }
